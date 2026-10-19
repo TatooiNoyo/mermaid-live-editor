@@ -306,15 +306,11 @@ ${svgString}`);
     {#if isClipboardAvailable()}
       <CopyButton onclick={onCopyClipboard} label={t('actions.copyImage')} />
     {/if}
-    <ExternalLinkWrapper
-      labelPrefix={t('actions.thumbnailBy')}
-      domain={getDomain(urls.current.png)}
-      isVisible={!!urls.current.mdCode}>
-      <CopyInput
-        value={urls.current.mdCode}
-        label={t('actions.copyMarkdown')}
-        testID={TID.copyMarkdown} />
-    </ExternalLinkWrapper>
+    <CopyInput
+      value={urls.current.mdCode}
+      label={t('actions.copyMarkdown')}
+      testID={TID.copyMarkdown}
+      type="text" />
     <div class="flex w-full items-center gap-2">
       <Input type="url" bind:value={gistURL} placeholder={t('actions.gistPlaceholder')} />
       <Button onclick={loadGist}>{t('actions.loadGist')}</Button>

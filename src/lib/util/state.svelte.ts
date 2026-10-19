@@ -11,6 +11,7 @@ import {
   replaceLineNumberInErrorMessage
 } from './errorHandling';
 import { darkVariantOf, getDefaultTheme, isManagedTheme, parse } from './mermaid';
+import { toMermaidMarkdown } from './markdown';
 import { readJSON, writeJSON } from './persist.svelte';
 import { findUnsafeConfigPaths, stripConfigPaths } from './sanitize';
 import { deserializeState, pakoSerde, serializeState } from './serde';
@@ -154,7 +155,7 @@ const urlsCurrent = $derived.by(() => {
   const png = rendererUrl ? `${rendererUrl}/img/${serialized}?type=png` : '';
   return {
     kroki: krokiRendererUrl ? `${krokiRendererUrl}/mermaid/svg/${pakoSerde.serialize(code)}` : '',
-    mdCode: png ? `[![](${png})](${window.location.href})` : '',
+    mdCode: toMermaidMarkdown(code),
     mermaidChart: ({
       medium,
       campaign

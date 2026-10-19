@@ -5,10 +5,13 @@ test.describe('Check actions', () => {
     await editPage.toggleActions();
   });
 
-  test('should update markdown code', async ({ editPage }) => {
+  test('should expose diagram source as a Markdown code block', async ({ editPage }) => {
     const oldText = await editPage.markdownInput.inputValue();
+    expect(oldText).toMatch(/^```mermaid\n[\s\S]+\n```$/);
+    expect(oldText).not.toContain('![](');
     await editPage.typeInEditor('C --> HistoryTest', { bottom: true, newline: true });
     await expect(editPage.markdownInput).not.toHaveValue(oldText);
+    await expect(editPage.markdownInput).toHaveValue(/C --> HistoryTest\n```$/);
   });
 
   test.skip('should load gists from URL', async ({ page }) => {

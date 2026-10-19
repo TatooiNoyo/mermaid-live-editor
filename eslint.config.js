@@ -49,6 +49,13 @@ export default defineConfig(
     }
   },
   {
+    // Translation keys are grouped by feature rather than alphabetically.
+    files: ['src/lib/util/i18n.svelte.ts'],
+    rules: {
+      'sort-keys/sort-keys-fix': 'off'
+    }
+  },
+  {
     files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
       parserOptions: {

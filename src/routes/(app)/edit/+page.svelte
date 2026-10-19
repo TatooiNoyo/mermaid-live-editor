@@ -32,6 +32,7 @@
   import CodeIcon from '~icons/custom/code';
   import HistoryIcon from '~icons/material-symbols/history';
   import GearIcon from '~icons/material-symbols/settings-outline-rounded';
+  import { t } from '$/util/i18n.svelte';
 
   const panZoomState = new PanZoomState();
 
@@ -40,18 +41,18 @@
     updateCodeStore({ editorMode });
   };
 
-  const editorTabs: Tab[] = [
+  const editorTabs: Tab[] = $derived([
     {
       icon: CodeIcon,
       id: 'code',
-      title: 'Code'
+      title: t('editor.code')
     },
     {
       icon: GearIcon,
       id: 'config',
-      title: 'Config'
+      title: t('editor.config')
     }
-  ];
+  ]);
 
   let width = $state(0);
   let isMobile = $derived(width < 640);
@@ -82,18 +83,24 @@
 <div class="flex h-full flex-col overflow-hidden">
   {#snippet mobileToggle()}
     <div class="flex items-center gap-2">
-      Edit <Switch
+      {t('editor.edit')}
+      <Switch
         id="editorMode"
         class="data-[state=checked]:bg-accent"
         bind:checked={isViewMode}
         onclick={() => {
           logEvent('mobileViewToggle');
-        }} /> View
+        }} />
+      {t('editor.view')}
     </div>
   {/snippet}
 
   <Navbar mobileToggle={isMobile ? mobileToggle : undefined}>
-    <Toggle bind:pressed={isHistoryOpen} size="sm" title="History" aria-label="History">
+    <Toggle
+      bind:pressed={isHistoryOpen}
+      size="sm"
+      title={t('editor.history')}
+      aria-label={t('editor.history')}>
       <HistoryIcon />
     </Toggle>
     <Share />
@@ -106,7 +113,7 @@
           target="_blank"
           onclick={() => logMermaidChartClick('contactSales')}>
           <MermaidChartIcon />
-          Contact sales
+          {t('editor.contactSales')}
         </Button>
       </McWrapper>
       <McWrapper>
@@ -117,7 +124,7 @@
           target="_blank"
           onclick={() => logMermaidChartClick('saveDiagram')}>
           <MermaidChartIcon />
-          Save diagram
+          {t('editor.saveDiagram')}
         </Button>
       </McWrapper>
     {/if}

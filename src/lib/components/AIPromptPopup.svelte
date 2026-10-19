@@ -2,6 +2,7 @@
   import { Button } from '$/components/ui/button';
   import { cn } from '$lib/utils.js';
   import CloseIcon from '~icons/material-symbols/close-rounded';
+  import { t } from '$/util/i18n.svelte';
 
   interface Props {
     show: boolean;
@@ -89,7 +90,7 @@
             }
           }
         }}
-        placeholder="Describe what to add or change"
+        placeholder={t('ai.placeholder')}
         rows="1"
         class="focus font-recursive min-h-0 flex-1 resize-none border-none bg-transparent px-1 text-sm font-normal text-foreground placeholder:text-muted-foreground focus:ring-0 focus:outline-none disabled:opacity-50 dark:text-foreground dark:placeholder:text-muted-foreground"
         style="height: 20px; overflow-y: hidden;"></textarea>
@@ -100,11 +101,11 @@
 
     <div class="flex items-center justify-between">
       <span class="font-recursive text-xs font-normal text-foreground dark:text-foreground"
-        >Sign Up at Mermaid.ai to try AI</span>
+        >{t('ai.signup')}</span>
       <Button
         class="font-recursive h-6 w-16 gap-1.5 rounded-sm bg-accent p-1 text-xs font-medium text-white no-underline hover:bg-accent/90 hover:text-white hover:no-underline active:bg-accent/80 dark:bg-accent dark:text-white! dark:hover:bg-accent/90 dark:active:bg-accent/80"
         onclick={onTryFree}>
-        Try free
+        {t('ai.tryFree')}
       </Button>
     </div>
   </div>

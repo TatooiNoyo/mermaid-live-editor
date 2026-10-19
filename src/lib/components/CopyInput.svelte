@@ -6,7 +6,7 @@
 
   let {
     value,
-    label = 'Copy',
+    label,
     type = 'url',
     testID
   }: { value: string; label?: string; type?: InputType; testID?: string } = $props();

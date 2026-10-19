@@ -7,6 +7,7 @@
   import { logMermaidChartClick } from '$/util/stats';
   import { quintInOut } from 'svelte/easing';
   import { slide } from 'svelte/transition';
+  import { t } from '$/util/i18n.svelte';
 
   const showVisualEdit = $derived(
     describeDiagram(validatedState.current.diagramType)?.visualEdit ?? false
@@ -29,14 +30,19 @@
     }
 
     const actions: EnhancedEditAction[] = [
-      { campaign: 'voice_1', label: 'with voice', medium: 'voice_edit', source: 'voiceEdit' },
-      { campaign: 'ai_1', label: 'with AI', medium: 'ai_edit', source: 'aiEdit' }
+      {
+        campaign: 'voice_1',
+        label: t('editor.editWithVoice'),
+        medium: 'voice_edit',
+        source: 'voiceEdit'
+      },
+      { campaign: 'ai_1', label: t('editor.editWithAI'), medium: 'ai_edit', source: 'aiEdit' }
     ];
 
     if (showVisualEdit) {
       actions.unshift({
         campaign: 'visual_1',
-        label: 'visually',
+        label: t('editor.editVisually'),
         medium: 'visual_edit',
         source: 'visualEdit'
       });
@@ -90,7 +96,7 @@
       target="_blank"
       onclick={() => logMermaidChartClick(currentAction.source)}>
       <MermaidChartIcon />
-      Edit
+      {t('editor.edit')}
       {#key currentAction.label}
         <span
           class="-ml-1"

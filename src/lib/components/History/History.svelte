@@ -19,6 +19,8 @@
   import OpenInNewIcon from '~icons/material-symbols/open-in-new-rounded';
   import { Button } from '../ui/button';
   import { Separator } from '../ui/separator';
+  import { i18n, t } from '$/util/i18n.svelte';
+  import 'dayjs/locale/zh-cn';
   import {
     addManualEntry,
     clearActive,
@@ -31,11 +33,15 @@
 
   dayjs.extend(dayjsRelativeTime);
 
-  const baseTabs: Tab[] = [
-    { id: 'manual', title: 'Saved', icon: BookmarkIcon },
-    { id: 'auto', title: 'Timeline', icon: HistoryIcon }
-  ];
-  const loaderTab: Tab = { id: 'loader', title: 'Revisions', icon: GitAltIcon };
+  const baseTabs: Tab[] = $derived([
+    { id: 'manual', title: t('history.saved'), icon: BookmarkIcon },
+    { id: 'auto', title: t('history.timeline'), icon: HistoryIcon }
+  ]);
+  const loaderTab: Tab = $derived({
+    id: 'loader',
+    title: t('history.revisions'),
+    icon: GitAltIcon
+  });
 
   const tabs = $derived(
     historyState.loaderEntries.length > 0 ? [loaderTab, ...baseTabs] : baseTabs
@@ -62,9 +68,7 @@
   };
 
   const emptyMessage = $derived(
-    historyState.mode === 'auto'
-      ? 'No timeline snapshots yet.\nThe Timeline is saved automatically every minute.'
-      : 'No saved states yet.\nClick the Save button to bookmark the current diagram and restore it later.'
+    historyState.mode === 'auto' ? t('history.emptyTimeline') : t('history.emptySaved')
   );
 
   const tabSelectHandler = (tab: Tab) => {
@@ -94,19 +98,19 @@
       }
       const data: HistoryEntry[] = JSON.parse(await file.text());
       const { restored, invalid, duplicates } = restoreEntries(data);
-      notify(`${restored} restored, ${duplicates} duplicate, ${invalid} invalid.`);
+      notify(t('history.importResult', { restored, duplicates, invalid }));
     });
     input.click();
   };
 
   const saveHistory = () => {
     if (!addManualEntry($state.snapshot(inputState))) {
-      notify('State already saved.');
+      notify(t('history.alreadySaved'));
     }
   };
 
   const clearAll = () => {
-    if (prompt('Clear all saved items?')) {
+    if (prompt(t('history.clearConfirm'))) {
       clearActive();
     }
   };
@@ -133,14 +137,14 @@
         variant="ghost"
         id="uploadHistory"
         onclick={uploadHistory}
-        title="Upload history"><UploadIcon /></Button>
+        title={t('history.upload')}><UploadIcon /></Button>
       {#if historyState.entries.length > 0}
         <Button
           id="downloadHistory"
           size="icon"
           variant="ghost"
           onclick={downloadHistory}
-          title="Download history"><DownloadIcon /></Button>
+          title={t('history.download')}><DownloadIcon /></Button>
       {/if}
       <Separator orientation="vertical" />
       <Button
@@ -148,7 +152,7 @@
         size="icon"
         variant="ghost"
         onclick={saveHistory}
-        title="Save current state"><SaveIcon /></Button>
+        title={t('history.save')}><SaveIcon /></Button>
       {#if historyState.mode !== 'loader'}
         <Button
           id="clearHistory"
@@ -156,7 +160,7 @@
           variant="ghost"
           class="hover:text-destructive"
           onclick={clearAll}
-          title="Delete all saved states"><TrashAltIcon /></Button>
+          title={t('history.clear')}><TrashAltIcon /></Button>
       {/if}
     </div>
   {/snippet}
@@ -172,13 +176,13 @@
                     href={url}
                     target="_blank"
                     rel="noopener"
-                    title="Open revision in new tab"
+                    title={t('history.openRevision')}
                     class="min-w-0 truncate text-blue-500 hover:underline">{name}</a>
                 {:else if editingId === id}
                   <input
                     class="min-w-0 flex-1 rounded border px-1 text-sm"
                     bind:value={editValue}
-                    aria-label="Rename entry"
+                    aria-label={t('history.renameEntry')}
                     onkeydown={(event) => {
                       if (event.key === 'Enter') {
                         commitRename();
@@ -193,7 +197,7 @@
                     <button
                       type="button"
                       class="shrink-0 opacity-50 hover:opacity-100"
-                      title="Rename"
+                      title={t('history.rename')}
                       onclick={() => {
                         editingId = id;
                         editValue = name ?? '';
@@ -204,13 +208,15 @@
                 {/if}
               </div>
               <span class="text-xs whitespace-nowrap text-primary-foreground/30">
-                {new Date(time).toLocaleString()}
+                {new Date(time).toLocaleString(i18n.current)}
               </span>
             </div>
 
             <div class="flex items-center gap-2">
               <span class="text-sm whitespace-nowrap text-primary-foreground/50">
-                {dayjs(time).fromNow()}
+                {dayjs(time)
+                  .locale(i18n.current === 'zh-CN' ? 'zh-cn' : 'en')
+                  .fromNow()}
               </span>
               <Button
                 href={openUrl}
@@ -218,13 +224,13 @@
                 rel="noopener"
                 size="icon"
                 variant="ghost"
-                title="Open in new tab">
+                title={t('history.openNewTab')}>
                 <OpenInNewIcon />
               </Button>
               <Button
                 size="icon"
                 variant="ghost"
-                title="Restore this version"
+                title={t('history.restore')}
                 onclick={() => restoreHistoryItem(state)}>
                 <UndoIcon />
               </Button>
@@ -233,7 +239,7 @@
                   size="icon"
                   variant="ghost"
                   class="hover:text-destructive"
-                  title="Delete this version"
+                  title={t('history.delete')}
                   onclick={() => removeEntry(id)}>
                   <TrashAltIcon />
                 </Button>

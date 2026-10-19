@@ -19,6 +19,7 @@
   import { onMount } from 'svelte';
   import DarkModeIcon from '~icons/material-symbols/dark-mode-outline';
   import LightModeIcon from '~icons/material-symbols/light-mode-outline';
+  import { t } from '$/util/i18n.svelte';
 
   let resolved = $state<ResolvedEmbed>();
   const panZoomState = new PanZoomState();
@@ -52,7 +53,7 @@
 </script>
 
 <svelte:head>
-  <title>Mermaid diagram</title>
+  <title>{t('embed.title')}</title>
   <meta name="robots" content="noindex" />
 </svelte:head>
 
@@ -65,8 +66,8 @@
           class="max-w-md rounded-lg border bg-card p-4 text-center text-sm text-card-foreground shadow-sm">
           <p>{resolved.error}</p>
           <p class="mt-2 text-muted-foreground">
-            Check that the link is complete, or
-            <a class="underline" href={resolve('/edit', {})}>create a new diagram</a>.
+            {t('embed.errorHint')}
+            <a class="underline" href={resolve('/edit', {})}>{t('embed.createNew')}</a>.
           </p>
         </div>
       </div>
@@ -91,7 +92,7 @@
           class="absolute top-2 left-2"
           variant="ghost"
           size="icon"
-          title="Toggle light / dark"
+          title={t('embed.toggleTheme')}
           onclick={flipMode}>
           {#if settings.mode === 'dark'}
             <LightModeIcon />
@@ -114,7 +115,7 @@
         rel="noreferrer noopener"
         class="flex items-center gap-1.5 text-muted-foreground hover:text-foreground">
         <img src={asset('/favicon.svg')} alt="" class="h-4 w-4" />
-        Powered by Mermaid
+        {t('embed.poweredBy')}
       </a>
 
       <div class="flex items-center gap-3">
@@ -124,7 +125,7 @@
           target="_blank"
           rel="noreferrer noopener"
           class="text-muted-foreground hover:text-foreground">
-          Edit
+          {t('embed.edit')}
         </a>
         {#if env.isEnabledMermaidChartLinks}
           <a
@@ -134,7 +135,7 @@
             rel="noreferrer noopener"
             class="inline-flex items-center gap-1.5 font-medium text-muted-foreground hover:text-foreground hover:underline">
             <MermaidChartIcon class="h-3.5 w-3.5" />
-            Save in Mermaid Chart
+            {t('embed.save')}
           </a>
         {/if}
       </div>

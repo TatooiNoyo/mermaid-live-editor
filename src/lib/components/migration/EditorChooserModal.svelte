@@ -11,6 +11,7 @@
   import GoogleIcon from '~icons/logos/google';
   import MicrosoftIcon from '~icons/logos/microsoft';
   import { createEditorChooserActions } from './editorChooserActions';
+  import { t } from '$/util/i18n.svelte';
 
   interface Props {
     open: boolean;
@@ -25,21 +26,21 @@
     open = false;
   });
 
-  const features = [
-    { title: 'AI diagram generation', description: 'Describe what you need, AI builds it' },
+  const features = $derived([
+    { title: t('migration.aiTitle'), description: t('migration.aiDescription') },
     {
-      title: 'Visual drag-and-drop editor',
-      description: 'Edit diagrams without writing code'
+      title: t('migration.visualTitle'),
+      description: t('migration.visualDescription')
     },
     {
-      title: 'Unlimited diagram storage',
-      description: 'Save and organize all your diagrams'
+      title: t('migration.storageTitle'),
+      description: t('migration.storageDescription')
     },
     {
-      title: 'Team collaboration',
-      description: 'Share, comment, and edit together in real-time'
+      title: t('migration.teamTitle'),
+      description: t('migration.teamDescription')
     }
-  ];
+  ]);
 
   const trustedLogos: { name: string; icon: Component }[] = [
     { name: 'Google', icon: GoogleIcon },
@@ -60,9 +61,9 @@
   <Dialog.Content class="flex max-w-lg flex-col gap-3 bg-background p-8">
     <Dialog.Header class="flex-col items-start gap-2 space-y-0 text-left sm:text-left">
       <MermaidChartIcon class="size-10" />
-      <Dialog.Title class="pt-2 text-2xl font-bold">Try the full Mermaid experience</Dialog.Title>
+      <Dialog.Title class="pt-2 text-2xl font-bold">{t('migration.title')}</Dialog.Title>
       <Dialog.Description class="text-xs font-light text-muted-foreground">
-        Free forever, with Plus features free for 7 days.
+        {t('migration.subtitle')}
       </Dialog.Description>
     </Dialog.Header>
 
@@ -80,15 +81,16 @@
 
     <div class="mt-2 flex items-center gap-3">
       <McWrapper labelPrefix="Opens ">
-        <Button variant="accent" onclick={() => actions.startTrial()}>Start free trial</Button>
+        <Button variant="accent" onclick={() => actions.startTrial()}
+          >{t('migration.startTrial')}</Button>
       </McWrapper>
       <Button variant="outline" onclick={() => actions.dismiss('stayOnLive')}>
-        Stay on mermaid.live
+        {t('migration.stay')}
       </Button>
     </div>
 
     <div class="mt-3 flex flex-col items-start gap-4">
-      <p class="text-xs">Trusted by 5M people and over 200k companies</p>
+      <p class="text-xs">{t('migration.trusted')}</p>
       <div class="flex w-full items-center justify-between gap-2">
         {#each trustedLogos as logo (logo.name)}
           <logo.icon class="h-6 w-auto grayscale" aria-label={logo.name} />

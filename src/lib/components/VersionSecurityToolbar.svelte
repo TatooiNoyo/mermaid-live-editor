@@ -8,12 +8,13 @@
   import { version } from 'mermaid/package.json';
   import { mode, setMode } from 'mode-watcher';
   import ThemeIcon from './ThemeIcon.svelte';
+  import { t } from '$/util/i18n.svelte';
 </script>
 
 <FloatingToolbar>
   <span class="text-sm font-semibold opacity-60">v{version}</span>
   {#if !env.hidePrivacyPolicy}
-    <Button variant="ghost" size="icon" title="Privacy & Security">
+    <Button variant="ghost" size="icon" title={t('toolbar.privacy')}>
       <Privacy />
     </Button>
 
@@ -23,7 +24,9 @@
     variant="ghost"
     size="icon"
     data-testid={TID.themeToggleButton}
-    title="Switch to {mode.current === 'dark' ? 'light' : 'dark'} theme"
+    title={t('toolbar.switchTheme', {
+      theme: mode.current === 'dark' ? t('common.light') : t('common.dark')
+    })}
     class="[&_svg]:size-5"
     onclick={() => setMode(mode.current === 'dark' ? 'light' : 'dark')}>
     <ThemeIcon />

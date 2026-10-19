@@ -10,6 +10,7 @@
   import { logMermaidChartClick } from '$lib/util/stats';
   import { debounce } from 'lodash-es';
   import ExclamationCircleIcon from '~icons/material-symbols/error-outline-rounded';
+  import { t } from '$/util/i18n.svelte';
 
   const { isMobile } = $props<{ isMobile: boolean }>();
   const onUpdate = (text: string) => {
@@ -52,10 +53,10 @@
         <div class="flex w-fit items-center gap-2">
           <ExclamationCircleIcon class="size-6 text-destructive" aria-hidden="true" />
           <div class="flex flex-col">
-            <p>Syntax error</p>
+            <p>{t('editor.syntaxError')}</p>
             {#if env.isEnabledMermaidChartLinks && validatedState.current.editorMode === 'code'}
               <p class="text-xs text-white/60" data-testid={TID.aiHelpText}>
-                Create a free account to repair with AI
+                {t('editor.aiHelp')}
               </p>
             {/if}
           </div>
@@ -70,7 +71,7 @@
               target="_blank"
               onclick={() => logMermaidChartClick('aiRepair')}>
               <MermaidChartIcon />
-              AI Repair
+              {t('editor.aiRepair')}
             </Button>
           </McWrapper>
         {/if}

@@ -7,6 +7,7 @@
   import ArrowsToCircleIcon from '~icons/material-symbols/screenshot-frame-2';
   import MagnifyingGlassPlusIcon from '~icons/material-symbols/zoom-in';
   import MagnifyingGlassMinusIcon from '~icons/material-symbols/zoom-out';
+  import { t } from '$/util/i18n.svelte';
 
   let {
     /** Embed/narrow frames: keep zoom buttons visible below the `sm` breakpoint. */
@@ -24,7 +25,11 @@
 </script>
 
 <FloatingToolbar>
-  <Button variant="ghost" size="icon" title="Reset view" onclick={() => panZoomState.reset()}>
+  <Button
+    variant="ghost"
+    size="icon"
+    title={t('toolbar.resetView')}
+    onclick={() => panZoomState.reset()}>
     <ArrowsToCircleIcon />
   </Button>
   <Separator orientation="vertical" />
@@ -32,7 +37,7 @@
     variant="ghost"
     size="icon"
     class={zoomClass}
-    title="Zoom out"
+    title={t('toolbar.zoomOut')}
     onclick={() => panZoomState.zoomOut()}>
     <MagnifyingGlassMinusIcon />
   </Button>
@@ -40,13 +45,18 @@
     variant="ghost"
     size="icon"
     class={zoomClass}
-    title="Zoom in"
+    title={t('toolbar.zoomIn')}
     onclick={() => panZoomState.zoomIn()}>
     <MagnifyingGlassPlusIcon />
   </Button>
   {#if fullScreenHref}
     <Separator orientation="vertical" class={zoomClass} />
-    <Button variant="ghost" size="icon" title="Full Screen" href={fullScreenHref} target="_blank">
+    <Button
+      variant="ghost"
+      size="icon"
+      title={t('toolbar.fullScreen')}
+      href={fullScreenHref}
+      target="_blank">
       <ExpandIcon />
     </Button>
   {/if}

@@ -18,6 +18,7 @@
   import CloseIcon from '~icons/material-symbols/close-rounded';
   import GithubIcon from '~icons/mdi/github';
   import DropdownNavMenu from './DropdownNavMenu.svelte';
+  import { t } from '$/util/i18n.svelte';
 
   interface Props {
     mobileToggle?: Snippet;
@@ -66,7 +67,7 @@
     </div>
     {#snippet closeBanner()}
       <Button
-        title="Dismiss banner"
+        title={t('menu.dismissBanner')}
         variant="ghost"
         class="hover:bg-transparent hover:text-[#261A56]"
         size="sm"

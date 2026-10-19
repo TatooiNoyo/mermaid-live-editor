@@ -8,6 +8,7 @@
   import { cn } from '$lib/utils';
   import ShapesIcon from '~icons/material-symbols/account-tree-outline-rounded';
   import ChevronDownIcon from '~icons/material-symbols/keyboard-arrow-down-rounded';
+  import { t } from '$/util/i18n.svelte';
 
   const extras: Record<string, SampleExample[]> = {
     ZenUML: [
@@ -69,7 +70,7 @@
   ];
 </script>
 
-<Card title="Sample Diagrams" isOpen isStackable icon={{ component: ShapesIcon }}>
+<Card title={t('samples.title')} isOpen isStackable icon={{ component: ShapesIcon }}>
   <div class="flex h-fit max-h-52 flex-wrap gap-2 overflow-y-auto p-2">
     {#each diagramOrder as sample (sample)}
       {@const examples = samples[sample]}
@@ -83,7 +84,7 @@
         {#if examples.length > 1}
           <Popover.Root>
             <Popover.Trigger
-              aria-label="Choose a {sample} example"
+              aria-label={t('samples.choose', { diagram: sample })}
               class={cn(
                 buttonVariants({ size: 'sm' }),
                 'rounded-l-none border-l border-primary-foreground/30 px-0.5 [&_svg]:size-5'

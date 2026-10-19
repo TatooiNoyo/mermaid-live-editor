@@ -18,6 +18,8 @@
   import CommunityIcon from '~icons/material-symbols/person-play-outline-rounded';
   import PlaygroundIcon from '~icons/material-symbols/shape-line-outline';
   import MermaidChartIcon from './MermaidChartIcon.svelte';
+  import LocaleSwitcher from './LocaleSwitcher.svelte';
+  import { t } from '$/util/i18n.svelte';
 
   interface MenuItem {
     label: string;
@@ -32,13 +34,18 @@
   }
 
   const menuItems: MenuItem[] = $derived([
-    { label: 'New', icon: AddIcon, href: urls.current.new, renderer: menuItem },
-    { label: 'Duplicate', icon: DuplicateIcon, href: window.location.href, renderer: menuItem },
+    { label: t('menu.new'), icon: AddIcon, href: urls.current.new, renderer: menuItem },
+    {
+      label: t('menu.duplicate'),
+      icon: DuplicateIcon,
+      href: window.location.href,
+      renderer: menuItem
+    },
     {
       href: urls.current.mermaidChart({ medium: 'main_menu' }).playground,
       icon: PlaygroundIcon,
       isSectionEnd: true,
-      label: 'Edit in Playground',
+      label: t('menu.editInPlayground'),
       onclick: () => logMermaidChartClick('editInPlayground'),
       renderer: mcMenuItem
     },
@@ -49,13 +56,13 @@
       renderer: menuItem
     },
     {
-      label: 'Documentation',
+      label: t('menu.documentation'),
       icon: BookIcon,
       href: `${env.docsUrl}/intro/`,
       renderer: menuItem
     },
     {
-      label: 'Community',
+      label: t('menu.community'),
       icon: CommunityIcon,
       href: 'https://discord.gg/sKeNQX4Wtj',
       renderer: menuItem
@@ -64,7 +71,7 @@
       checkDiagramType: false,
       href: urls.current.mermaidChart({ medium: 'main_menu' }).plugins,
       icon: PluginIcon,
-      label: 'Plugins',
+      label: t('menu.plugins'),
       onclick: () => logMermaidChartClick('plugins'),
       renderer: mcMenuItem,
       sharesData: false
@@ -73,7 +80,7 @@
       href: '#',
       icon: ContrastIcon,
       isSectionEnd: true,
-      label: 'Dark Mode',
+      label: t('menu.darkMode'),
       renderer: darkModeMenuItem
     },
     {
@@ -107,7 +114,7 @@
 {#snippet mcMenuItem(item: Omit<MenuItem, 'renderer'>)}
   <McWrapper
     side="right"
-    labelPrefix={item.sharesData === false ? 'Opens a new tab in' : undefined}
+    labelPrefix={item.sharesData === false ? t('menu.opensNewTabIn') : undefined}
     sharesData={item.sharesData}
     shouldCheckDiagramType={item.checkDiagramType}>
     {@render menuItem(item)}
@@ -123,7 +130,7 @@
     )}>
     <span class="flex items-center gap-2">
       <ContrastIcon />
-      Dark Mode
+      {t('menu.darkMode')}
     </span>
     <Switch
       checked={mode.current === 'dark'}
@@ -139,5 +146,6 @@
     {#each menuItems as { renderer, ...item } (item.label)}
       {@render renderer(item)}
     {/each}
+    <LocaleSwitcher />
   </Popover.Content>
 </Popover.Root>

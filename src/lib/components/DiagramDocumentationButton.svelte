@@ -5,6 +5,7 @@
   import { describeDiagram } from '$/util/diagramTypes';
   import { validatedState } from '$/util/state.svelte';
   import BookIcon from '~icons/material-symbols/book-2-outline-rounded';
+  import { t } from '$/util/i18n.svelte';
 
   const doc = $derived.by(() => {
     const { diagramType, editorMode } = validatedState.current;
@@ -20,7 +21,7 @@
   data-testid={TID.diagramDocumentationButton}
   href={doc.url}
   target="_blank"
-  title="View documentation for {doc.key.replace('Diagram', '')} diagram">
+  title={t('editor.docsTitle', { diagram: doc.key.replace('Diagram', '') })}>
   <BookIcon />
-  Docs
+  {t('editor.docs')}
 </Button>

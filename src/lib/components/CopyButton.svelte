@@ -4,11 +4,10 @@
   import { scale } from 'svelte/transition';
   import CheckIcon from '~icons/material-symbols/check-rounded';
   import CopyIcon from '~icons/material-symbols/content-copy-outline-rounded';
+  import { t } from '$/util/i18n.svelte';
 
-  let {
-    onclick,
-    label = 'Copy'
-  }: { onclick: (event?: Event) => Promise<unknown>; label?: string } = $props();
+  let { onclick, label }: { onclick: (event?: Event) => Promise<unknown>; label?: string } =
+    $props();
 
   let showCheckIcon = $state(false);
 </script>
@@ -22,7 +21,7 @@
       }, 1000);
       await onclick(event);
     } catch {
-      notify('Failed to copy');
+      notify(t('common.failedToCopy'));
     }
   }}>
   <div class="grid">
@@ -36,5 +35,5 @@
       </span>
     {/key}
   </div>
-  {label}
+  {label ?? t('common.copy')}
 </Button>

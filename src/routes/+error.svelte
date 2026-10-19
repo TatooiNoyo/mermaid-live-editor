@@ -3,6 +3,7 @@
   import { resolve } from '$app/paths';
   import { page } from '$app/state';
   import { onMount } from 'svelte';
+  import { t } from '$/util/i18n.svelte';
 
   // Only redirect if it's a 404 error
   onMount(() => {
@@ -14,8 +15,8 @@
 
 {#if page.status !== 404}
   <div class="container mx-auto p-8">
-    <h1 class="mb-4 text-2xl font-bold">Error {page.status}</h1>
-    <p class="mb-4">{page.error?.message || 'An unexpected error occurred'}</p>
-    <a href={resolve('/')} class="text-blue-500 hover:underline">Return to Home</a>
+    <h1 class="mb-4 text-2xl font-bold">{t('error.title', { status: page.status })}</h1>
+    <p class="mb-4">{page.error?.message || t('error.unexpected')}</p>
+    <a href={resolve('/')} class="text-blue-500 hover:underline">{t('error.home')}</a>
   </div>
 {/if}

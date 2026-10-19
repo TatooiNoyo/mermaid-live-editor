@@ -16,6 +16,7 @@
   import ShareIcon from '~icons/material-symbols/share';
   import CopyButton from './CopyButton.svelte';
   import CopyInput from './CopyInput.svelte';
+  import { t } from '$/util/i18n.svelte';
 
   const sanitizedConfig = $derived(silentlySanitizeConfig(validatedState.current.mermaid));
   // Deliberate initial-value capture: the embed form seeds from the config at
@@ -52,13 +53,14 @@
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger class={buttonVariants({ size: 'sm' })}>Share</Dialog.Trigger>
+  <Dialog.Trigger class={buttonVariants({ size: 'sm' })}>{t('share.button')}</Dialog.Trigger>
   <Dialog.Content class="max-h-[90vh] overflow-y-auto sm:max-w-xl">
     <Dialog.Header>
       <Dialog.Title class="flex items-center gap-2 text-xl">
-        <ShareIcon class="size-5" /> Shareable links
+        <ShareIcon class="size-5" />
+        {t('share.title')}
       </Dialog.Title>
-      <Dialog.Description>Share your diagrams with others.</Dialog.Description>
+      <Dialog.Description>{t('share.description')}</Dialog.Description>
     </Dialog.Header>
 
     <div class="flex flex-col gap-4">
@@ -69,21 +71,21 @@
         </h2>
         <CopyInput value={window.location.href} />
         <Dialog.Description>
-          The content of the diagrams you create never leaves your browser.
+          {t('share.private')}
         </Dialog.Description>
       </div>
       <Separator />
       <div class="flex flex-col gap-3">
         <h2 class="flex items-center gap-2">
           <CodeIcon class="size-5" />
-          Embed
+          {t('share.embed')}
         </h2>
         <Dialog.Description>
-          Embed a live, interactive diagram in your own website or blog.
+          {t('share.embedDescription')}
         </Dialog.Description>
         <div class="grid grid-cols-2 gap-3">
           <label class="flex flex-col gap-1 text-sm">
-            Theme
+            {t('share.theme')}
             <select
               bind:value={theme}
               class="h-9 rounded-md border border-input bg-background px-2 text-sm text-foreground">
@@ -93,7 +95,7 @@
             </select>
           </label>
           <label class="flex flex-col gap-1 text-sm">
-            Look
+            {t('share.look')}
             <select
               bind:value={look}
               class="h-9 rounded-md border border-input bg-background px-2 text-sm text-foreground">
@@ -103,11 +105,11 @@
             </select>
           </label>
           <label class="flex flex-col gap-1 text-sm">
-            Width
+            {t('common.width')}
             <Input bind:value={width} />
           </label>
           <label class="flex flex-col gap-1 text-sm">
-            Height
+            {t('common.height')}
             <Input bind:value={height} />
           </label>
         </div>
@@ -121,27 +123,27 @@
                 mode = value;
               }
             }}>
-            <ToggleGroup.Item value="light">Light</ToggleGroup.Item>
-            <ToggleGroup.Item value="dark">Dark</ToggleGroup.Item>
+            <ToggleGroup.Item value="light">{t('common.light')}</ToggleGroup.Item>
+            <ToggleGroup.Item value="dark">{t('common.dark')}</ToggleGroup.Item>
           </ToggleGroup.Root>
           <label class="flex items-center gap-2 text-sm">
             <Switch bind:checked={controls} />
-            Controls
+            {t('share.controls')}
           </label>
           <label class="flex items-center gap-2 text-sm">
             <Switch bind:checked={grid} />
-            Grid
+            {t('share.grid')}
           </label>
           <label class="flex items-center gap-2 text-sm">
             <Switch bind:checked={showPreview} />
-            Preview
+            {t('share.preview')}
           </label>
         </div>
         {#if showPreview}
           <iframe
             data-testid={TID.embedPreview}
             src={embedUrls.url}
-            title="Embed preview"
+            title={t('share.embedPreview')}
             class="h-52 w-full rounded-lg border"
             sandbox={EMBED_IFRAME_SANDBOX}></iframe>
         {/if}
@@ -157,7 +159,7 @@
                 }
               }}>
               <ToggleGroup.Item value="iframe">iframe</ToggleGroup.Item>
-              <ToggleGroup.Item value="webComponent">Web component</ToggleGroup.Item>
+              <ToggleGroup.Item value="webComponent">{t('share.webComponent')}</ToggleGroup.Item>
             </ToggleGroup.Root>
             <textarea
               data-testid={TID.embedSnippet}
